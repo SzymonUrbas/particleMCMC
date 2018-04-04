@@ -43,7 +43,7 @@ set.seed(100)
 chain.cur=c(log(phi/(1-phi)), log(tau), gam, 0)
 chain.cur[4] = corr_filterSV(N,data$y, U, par, init.par)$l
 for(i in 1:M){
-  U.prop = rho*U+sqrt(1-rho^2)*matrix(rnorm(2*N*L), ncol = L) # U'|U
+  U.prop = rho*U+sqrt(1-rho^2)*matrix(rnorm(2*N*L), ncol = L) # U'|U --------------- change depending on which vars are unknown
   #chain.prop = c(rnorm(1,chain.cur[1],prop.sd[1]), chain.cur[2], chain.cur[3]) # theta'|theta
   #chain.prop = c(rnorm(1,chain.cur[1],prop.sd[1]), rnorm(1,chain.cur[2],prop.sd[2]), rnorm(1,chain.cur[3], prop.sd[3]))
   chain.prop = c(chain.cur[1], rnorm(1,chain.cur[2],prop.sd[2]), chain.cur[3])
@@ -59,7 +59,6 @@ for(i in 1:M){
   chain[i,] = chain.cur
   print(i)
 }
-mcmcSummary(chain)
 
 par(mfrow =c(2,2))
 plot(chain[,1], type = 'l', xlab = 'logit(phi)')
@@ -67,7 +66,7 @@ plot(chain[,2], type = 'l', xlab = 'log(tau)')
 plot(chain[,3], type = 'l', xlab = 'gamma')
 plot(chain[,4], type = 'l', xlab = 'Log-Lik')
 
-par(mfrow =c(1,3))
+par(mfrow =c(1,3)) #transform log(tau) to sigma^2
 plot(exp(2*chain[,2])*(1-0.9^2), type = 'l', xlab = 'iteration', ylab = 'sigma^2')
 plot(acf(chain[,2], plot = F), type = 'l')
 hist(exp(2*chain[,2])*(1-0.9^2))
