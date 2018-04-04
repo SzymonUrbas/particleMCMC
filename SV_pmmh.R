@@ -12,7 +12,7 @@
 #     Random-walk on theta=(logit(phi), log(tau), gamma)
 #     where tau^2=sigma^2/(1-phi^2)
 #
-source('CPM_fun.R')
+source('CPPMH.R')
 
 
 L = 100 # length of HMM
